@@ -1,15 +1,15 @@
 # -*- coding: UTF-8 -*-
 #!/usr/bin/python
 arrImageLink = [
-    '/Users/may1/Documents/fbBotchat/dataimage/2b775bcfe53f39cc88b820c532df1502.jpg',
-    '/Users/may1/Documents/fbBotchat/dataimage/download.jpeg',
-    '/Users/may1/Documents/fbBotchat/dataimage/med_1466487727_image.jpg',
-    '/Users/may1/Documents/fbBotchat/dataimage/1.jpeg',
-    '/Users/may1/Documents/fbBotchat/dataimage/Bb88N5lIUAA51Ux.jpg',
-    '/Users/may1/Documents/fbBotchat/dataimage/images.jpeg',
-    '/Users/may1/Documents/fbBotchat/dataimage/large.jpg',
-    '/Users/may1/Documents/fbBotchat/dataimage/pinterest2.jpeg',
-    '/Users/may1/Documents/fbBotchat/dataimage/23376322_1185590898251082_8043789806909211565_n.jpeg'
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/2b775bcfe53f39cc88b820c532df1502.jpg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/download.jpeg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/med_1466487727_image.jpg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/1.jpeg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/Bb88N5lIUAA51Ux.jpg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/images.jpeg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/large.jpg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/pinterest2.jpeg',
+    '/Users/dat/Documents/GitHub/fbChatBot/dataimage/23376322_1185590898251082_8043789806909211565_n.jpeg'
 ]
 arrstickerID = [
     '499670976782072',
@@ -34,3 +34,28 @@ arrstickerID = [
     ]
 emoij = "😀 😃 😄 😁 😆 😅 😂 🤣 ☺️ 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 🤡 🤠😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 👋 🤙 💪 🖕 ✍️ 🤳 💅 🖖 💄 💋 👄 👅 👂 👃 👣 👁 👀 🗣 👤 👥 ❤️ 💓 💓 💘 💙 💔 💕 💖 💝 😀 😁 😂 🤣 😃 😄 😅 😆 😙 😗 😘 😍 😎 😋 😊 😉 ☺ 😚 🙂 🤗 🤔 😐 🤐 😮 😥 😣 🤗 😏 🙄 😶 😑 😯 😪 😫 😴 😌 😛 😜 🤐 😲 🤑 🙃 😕 😔 😓 😒 ☹️ 🙁 😖 😞 😕 🙃 🤑 😢 😰 🤥 🤡 😰 😭 😡 😵 😳"
 arrEmoji = emoij.split()
+def replace(content):
+    content = content.replace("sim","Dat")
+    content = content.replace("simsim","Dat")
+    content = content.replace("simi","Dat")
+    content = content.replace("Simi","Dat")
+    content = content.replace("địt ","beep")
+    content = content.replace("diss","beep")
+    content = content.replace("điss","beep")
+    content = content.replace("lồn","beep")
+    content = content.replace("loz","beep")
+    content = content.replace("lồn","beep")
+    return content
+def check_type(data={}):
+    data = data['delta']["attachments"][0]["mercury"]
+    try:
+        if "blob_attachment" in data:
+            data = data["blob_attachment"]
+            type = str(data["__typename"])
+            return type
+        if "extensible_attachment" in data:
+            data = data["extensible_attachment"]
+            return data["story_attachment"]["target"]["__typename"]
+        pass
+    except Exception as e:
+        raise e
