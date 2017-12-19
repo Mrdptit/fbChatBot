@@ -62,7 +62,7 @@ class EchoBot(Client):
                                 client.sendLocalImage(data.arrImageLink[i], message=Message(text='hehe'), thread_id=thread_id, thread_type=thread_type)
                                 return
                             elif type_mess == GIF_TYPE:
-                                self.fetchUserInfo(user_ids = thread_id)
+                                
                                 client.sendRemoteImage('https://media.giphy.com/media/lGAfVlN0gat4A/giphy.gif', message=Message(text='Heyyyyy!!!'), thread_id=thread_id, thread_type=thread_type)
                                 return
                                 pass
