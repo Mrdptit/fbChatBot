@@ -46,7 +46,7 @@ class EchoBot(Client):
                         pass
                     else:
                         type_mess = data.check_type(msg)
-                        log(type_mess)
+                        log.debug(type_mess)
                         try:
                             if message_object.sticker is not None:
                                 print "stcker"
