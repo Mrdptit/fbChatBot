@@ -8,70 +8,93 @@ import config
 import data
 import random
 BlockUser = [];
+GuileUser = [];
+guide = """
+====================
++Stop Bot and chat with Dat chat: "I Love Dat" or "-stop"
++Start Bot chat: "I Hate Dat" or "-restart"
++Show Guide chat: "-help" or "Help"
+        """
 GIF_TYPE = "MessageAnimatedImage"
 IMG_TYPE = "MessageImage"
 URL_EXTENTION = "ExternalUrl"
+FEMALE = "female_singular"
 class EchoBot(Client):
     def onMessage(self, mid, author_id, message_object, thread_id, thread_type, ts, metadata, msg, **kwargs):
         self.markAsDelivered(author_id, thread_id)
         self.markAsRead(author_id)
         self.setTypingStatus
-        print msg
+        # print msg
         if author_id != self.uid:
-                if message_object.text == "Chat With Dat":
-                    BlockUser.append(thread_id)
-                if message_object.text == "Chat With Bot":
-                    BlockUser.remove(thread_id)
-                if thread_id in BlockUser:
-                    return
-                if thread_id == "100004048426982" or thread_id == "100010657146335" or thread_id == "100009855423845":
-                    return
-                if (thread_type.name == "USER" or thread_id == "1397966703611326" or thread_id == "1668089616544648"):
-                    if  message_object.text is not None:
-                        print "text"
-                        link  = 'http://api.simsimi.com/request.p?key=bb18d9b6-e162-4e26-820b-fe9657924d9e&lc=vn&ft=11.0&text='+message_object.text.encode('utf-8')
-                        response = urllib.urlopen(link)
-                        json1 = json.loads(response.read())
-                        print json1
-                        if json1["result"] == 100:
-                            messtesst = json1["response"].encode('utf-8')
-                        else:
-                            i = random.randint(0,len(data.arrEmoji)-1)
-                            messtesst = data.arrEmoji[i]
-                            print data.arrEmoji
-                        messtesst = data.replace(messtesst)
-                        log.info("Message from {} in {} ({}) with: {}!".format(author_id, thread_id, thread_type.name, message_object.text.encode('utf-8')))
-                        # print thread_type.name
-                        self.sendMessage(messtesst, thread_id=thread_id, thread_type=thread_type)
-                        pass
+            user = client.fetchUserInfo(author_id)[author_id]
+            print user.gender
+            print("user's name: {}".format(user.first_name.encode("utf-8")))
+            if message_object.text.lower() == "i love dat" or message_object.text == "-stop":
+                if user.gender == FEMALE:
+                    self.sendMessage("Yêu "+user.first_name.encode("utf-8")+" Ahihi", thread_id=thread_id, thread_type=thread_type)
+                else:
+                    self.sendMessage(user.name.encode("utf-8")+" tao không gay nhé", thread_id=thread_id, thread_type=thread_type)
+                BlockUser.append(thread_id)
+            if message_object.text.lower() == "i hate dat" or message_object.text == "-restart":
+                self.sendMessage("Đạt ghét "+user.name.encode("utf-8")+" rồi đấy", thread_id=thread_id, thread_type=thread_type)
+                BlockUser.remove(thread_id)
+                return
+            if message_object.text.lower() == "help" or message_object.text == "-help":
+                self.sendMessage(guide, thread_id=thread_id, thread_type=thread_type)
+            if thread_id in BlockUser:
+                return
+            if thread_id == "100004048426982" or thread_id == "100010657146335" or thread_id == "100009855423845":
+                return
+            if (thread_type.name == "USER" or thread_id == "1397966703611326" or thread_id == "1668089616544648"):
+                if  message_object.text is not None:
+                    print "text"
+                    link  = 'http://api.simsimi.com/request.p?key=bb18d9b6-e162-4e26-820b-fe9657924d9e&lc=vn&ft=11.0&text='+message_object.text.encode('utf-8')
+                    response = urllib.urlopen(link)
+                    json1 = json.loads(response.read())
+                    print json1
+                    if json1["result"] == 100:
+                        messtesst = json1["response"].encode('utf-8')
                     else:
-                        type_mess = data.check_type(msg)
-                        log.debug(type_mess)
-                        try:
-                            if message_object.sticker is not None:
-                                print "stcker"
-                                i = random.randint(0,len(data.arrstickerID)-1)
-                                self.send(Message(sticker=Sticker(data.arrstickerID[i])), thread_id=thread_id, thread_type=thread_type)
-                                return
-                        except KeyError:
-                            pass
-                        try:
-                            if type_mess == IMG_TYPE:
-                                print "image"
-                                i = random.randint(0,len(data.arrImageLink)-1)
-                                client.sendLocalImage(data.arrImageLink[i], message=Message(text='hehe'), thread_id=thread_id, thread_type=thread_type)
-                                return
-                            elif type_mess == GIF_TYPE:
-                                
-                                client.sendRemoteImage('https://media.giphy.com/media/lGAfVlN0gat4A/giphy.gif', message=Message(text='Heyyyyy!!!'), thread_id=thread_id, thread_type=thread_type)
-                                return
-                                pass
-                            else:
-                                client.sendRemoteImage('https://media.giphy.com/media/lGAfVlN0gat4A/giphy.gif', message=Message(text='Heyyyyy!!!'), thread_id=thread_id, thread_type=thread_type)
-                                pass
-                        except KeyError:
-                            pass
-                        self.sendMessage(messtesst, thread_id=thread_id, thread_type=thread_type)
+                        i = random.randint(0,len(data.arrEmoji)-1)
+                        messtesst = data.arrEmoji[i]
+                        print data.arrEmoji
+                    messtesst = data.replace(messtesst)
+                    if thread_id in GuileUser:
+                        messtesst = messtesst
+                    else:
+                        messtesst = messtesst + guide
+                        GuileUser.append(thread_id)
+                    log.info("Message from {} in {} ({}) with: {}!".format(author_id, thread_id, thread_type.name, message_object.text.encode('utf-8')))
+                    # print thread_type.name
+                    self.sendMessage(messtesst, thread_id=thread_id, thread_type=thread_type)
+                    pass
+                else:
+                    type_mess = data.check_type(msg)
+                    log.debug(type_mess)
+                    try:
+                        if message_object.sticker is not None:
+                            print "stcker"
+                            i = random.randint(0,len(data.arrstickerID)-1)
+                            self.send(Message(sticker=Sticker(data.arrstickerID[i])), thread_id=thread_id, thread_type=thread_type)
+                            return
+                    except KeyError:
                         pass
+                    try:
+                        if type_mess == IMG_TYPE:
+                            print "image"
+                            i = random.randint(0,len(data.arrImageLink)-1)
+                            client.sendLocalImage(data.arrImageLink[i], message=Message(text='hehe'), thread_id=thread_id, thread_type=thread_type)
+                            return
+                        elif type_mess == GIF_TYPE:
+                            client.sendRemoteImage('https://media.giphy.com/media/lGAfVlN0gat4A/giphy.gif', message=Message(text='Heyyyyy!!!'), thread_id=thread_id, thread_type=thread_type)
+                            return
+                            pass
+                        else:
+                            client.sendRemoteImage('https://media.giphy.com/media/lGAfVlN0gat4A/giphy.gif', message=Message(text='Heyyyyy!!!'), thread_id=thread_id, thread_type=thread_type)
+                            pass
+                    except KeyError:
+                        pass
+                    self.sendMessage(messtesst, thread_id=thread_id, thread_type=thread_type)
+                    pass
 client = EchoBot(config.email,config.password)
 client.listen()
