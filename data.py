@@ -32,30 +32,34 @@ arrstickerID = [
 
     
     ]
-emoij = "😀 😃 😄 😁 😆 😅 😂 🤣 ☺️ 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 🤡 🤠😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 👋 🤙 💪 🖕 ✍️ 🤳 💅 🖖 💄 💋 👄 👅 👂 👃 👣 👁 👀 🗣 👤 👥 ❤️ 💓 💓 💘 💙 💔 💕 💖 💝 😀 😁 😂 🤣 😃 😄 😅 😆 😙 😗 😘 😍 😎 😋 😊 😉 ☺ 😚 🙂 🤗 🤔 😐 🤐 😮 😥 😣 🤗 😏 🙄 😶 😑 😯 😪 😫 😴 😌 😛 😜 🤐 😲 🤑 🙃 😕 😔 😓 😒 ☹️ 🙁 😖 😞 😕 🙃 🤑 😢 😰 🤥 🤡 😰 😭 😡 😵 😳"
+emoij = "😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 🤡 🤠😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 👋 🤙 💪 🖕 ✍️ 🤳 💅 🖖 💄 💋 👄 👅 👂 👃 👣 👁 👀 🗣 👤 👥 ❤️ 💓 💓 💘 💙 💔 💕 💖 💝 😀 😁 😂 🤣 😃 😄 😅 😆 😙 😗 😘 😍 😎 😋 😊 😉 😚 🙂 🤗 🤔 😐 🤐 😮 😥 😣 🤗 😏 🙄 😶 😑 😯 😪 😫 😴 😌 😛 😜 🤐 😲 🤑 🙃 😕 😔 😓 😒 ☹️ 🙁 😖 😞 😕 🙃 🤑 😢 😰 🤥 🤡 😰 😭 😡 😵 😳"
 arrEmoji = emoij.split()
 def replace(content):
-    content = content.replace("sim","Dat")
-    content = content.replace("simsim","Dat")
-    content = content.replace("simi","Dat")
-    content = content.replace("Simi","Dat")
+    content = content.replace("sim ","Dat")
+    content = content.replace("simsim ","Dat")
+    content = content.replace("simi ","Dat")
+    content = content.replace("Simi ","Dat")
     content = content.replace("địt ","beep")
     content = content.replace("diss","beep")
     content = content.replace("điss","beep")
-    content = content.replace("lồn","beep")
+    content = content.replace("lồn ","beep")
     content = content.replace("loz","beep")
     content = content.replace("lồn","beep")
     return content
 def check_type(data={}):
-    data = data['delta']["attachments"][0]["mercury"]
-    try:
-        if "blob_attachment" in data:
-            data = data["blob_attachment"]
-            type = str(data["__typename"])
-            return type
-        if "extensible_attachment" in data:
-            data = data["extensible_attachment"]
-            return data["story_attachment"]["target"]["__typename"]
-        pass
-    except Exception as e:
-        raise e
+    data = data['delta']["attachments"][0]
+    if "mercury" not in data:
+        return "Messtext"
+    else:
+        data = data['delta']["attachments"][0]["mercury"]
+        try:
+            if "blob_attachment" in data:
+                data = data["blob_attachment"]
+                type = str(data["__typename"])
+                return type
+            if "extensible_attachment" in data:
+                data = data["extensible_attachment"]
+                return data["story_attachment"]["target"]["__typename"]
+            pass
+        except Exception as e:
+            raise e
