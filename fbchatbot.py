@@ -16,11 +16,11 @@ myId = "100007687420052"
 guide = """
 ====================
 <= Đây là Bot chat của Đạt =>
-+Tạm dừng Bot chat: "I Love Dat" or "-stop"
-+Khởi động lại Bot chat: "I Hate Dat" or "-restart"
-+Hiện hướng dẫn chat: "-help" or "Help"
-+Xoá thành viên  chat: "-rm" +Tag User
-+Tra dự báo thời tiết chat : "-wt" + tên khu vực
+*Tạm dừng Bot chat: "I Love Dat" or "-stop"
+*Khởi động lại Bot chat: "I Hate Dat" or "-restart"
+*Hiện hướng dẫn chat: "-help"
+*Xoá thành viên chat: "-rm"+Tag User
+*Tra dự báo thời tiết chat : "-wt" + tên khu vực
 """
 GIF_TYPE = "MessageAnimatedImage"
 IMG_TYPE = "MessageImage"
@@ -90,7 +90,9 @@ class EchoBot(Client):
                     print WT
                     self.sendMessage(WT, thread_id=thread_id, thread_type=thread_type)
                     return
-                #remove member
+            if message_object.text.lower() == '-help':
+                self.sendMessage(guide, thread_id=thread_id, thread_type=thread_type)
+                return
             if thread_id in BlockUser:
                 print "Block"
                 return
